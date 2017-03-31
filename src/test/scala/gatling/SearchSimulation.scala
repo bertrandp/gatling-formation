@@ -8,7 +8,7 @@ import io.gatling.jdbc.Predef._
 
 object Search {
   val search = feed(csv("search.csv").circular)
-    .repeat(2) {exec(http("Page computer")
+    .repeat(2) { group("Search ") {exec(http("Page computer")
     .get("/computers"))
     .pause(1)
     .exec(http("Search ${searchCriterion}")
@@ -16,6 +16,6 @@ object Search {
       .check(css("a:contains('${searchComputerName}')", "href").saveAs("url")))
     .pause(1)
     .exec(http("Select")
-      .get("${url}"))}
+      .get("${url}"))}}
 }
 
